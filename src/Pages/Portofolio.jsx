@@ -14,7 +14,7 @@ import "aos/dist/aos.css";
 import Certificate from "../components/Certificate";
 import { Code, Award, Boxes } from "lucide-react";
 
-// ✅ Import 8 certificate images
+// ✅ Import certificate images
 import cr1 from "../assets/certificates/cr1.jpg";
 import cr2 from "../assets/certificates/cr2.jpg";
 import cr3 from "../assets/certificates/cr3.jpg";
@@ -24,10 +24,9 @@ import cr6 from "../assets/certificates/cr6.jpg";
 import cr7 from "../assets/certificates/cr7.jpg";
 import cr8 from "../assets/certificates/cr8.jpg";
 
-// ✅ Use local images array
 const localCertificates = [cr1, cr2, cr3, cr4, cr5, cr6, cr7, cr8];
 
-// Show More / Show Less button
+// Toggle Button
 const ToggleButton = ({ onClick, isShowingMore }) => (
   <button
     onClick={onClick}
@@ -56,7 +55,7 @@ const ToggleButton = ({ onClick, isShowingMore }) => (
   </button>
 );
 
-// TabPanel component
+// Tab Panel
 function TabPanel({ children, value, index, ...other }) {
   return (
     <div
@@ -216,11 +215,14 @@ export default function FullWidthTabs() {
           </Tabs>
         </AppBar>
 
-        <SwipeableViews axis={theme.direction === "rtl" ? "x-reverse" : "x"} index={value} onChangeIndex={setValue}>
+        {/* Tab Content Rendering (No SwipeableViews) */}
+        {value === 0 && (
           <TabPanel value={value} index={0} dir={theme.direction}>
             <p className="text-slate-400 text-center">Coming soon: Projects Section</p>
           </TabPanel>
+        )}
 
+        {value === 1 && (
           <TabPanel value={value} index={1} dir={theme.direction}>
             <div className="container mx-auto flex justify-center items-center overflow-hidden">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
@@ -241,7 +243,9 @@ export default function FullWidthTabs() {
               </div>
             )}
           </TabPanel>
+        )}
 
+        {value === 2 && (
           <TabPanel value={value} index={2} dir={theme.direction}>
             <div className="container mx-auto flex justify-center items-center overflow-hidden pb-[5%]">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 lg:gap-8">
@@ -257,7 +261,7 @@ export default function FullWidthTabs() {
               </div>
             </div>
           </TabPanel>
-        </SwipeableViews>
+        )}
       </Box>
     </div>
   );

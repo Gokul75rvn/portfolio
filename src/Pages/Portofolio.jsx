@@ -12,7 +12,7 @@ import TechStackIcon from "../components/TechStackIcon";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Certificate from "../components/Certificate";
-import { Code, Award, Boxes } from "lucide-react";
+import { Code, Award, Boxes, Github, ExternalLink, Calendar } from "lucide-react";
 
 // ✅ Import certificate images
 import cr1 from "../assets/certificates/cr1.jpg";
@@ -26,7 +26,174 @@ import cr8 from "../assets/certificates/cr8.jpg";
 
 const localCertificates = [cr1, cr2, cr3, cr4, cr5, cr6, cr7, cr8];
 
-// Toggle Button
+// ✅ Projects Data - Add your actual projects here
+const projects = [
+  {
+    id: 1,
+    title: "Personal Portfolio Website",
+    description: "A modern, responsive portfolio website built with React and Tailwind CSS. Features smooth animations, dark theme, and interactive components.",
+    image: "pr.png", // Replace with your actual image
+    githubUrl: "https://github.com/Gokul75rvn/portfolio.git", // Replace with your actual GitHub URL
+    liveUrl: "https://yourportfolio.com", // Optional: Replace with live demo URL
+    technologies: ["React", "Tailwind CSS", "Vite"],
+    date: "2025-05",
+    status: "Completed"
+  },
+  {
+    id: 2,
+     title: "Delay Messager",
+  description: "React-based delay message sender app where users can schedule messages with a countdown timer and cancel them before sending.",
+  image: "pr1.png", // Replace with actual screenshot if available
+  githubUrl: "https://github.com/Gokul75rvn/Delay-messager",
+  liveUrl: "https://delay-texter-avuuo1wi6-gokul75rvns-projects.vercel.app",
+  technologies: ["React", "JavaScript", "Tailwind CSS", "Vite"],
+  date: "2025-08",
+  status: "Completed"
+  },
+  {
+    id: 3,
+    title: "Task Management System",
+    description: "A collaborative task management tool with real-time updates, drag-and-drop functionality, and team collaboration features.",
+    image: "https://via.placeholder.com/400x250/10b981/ffffff?text=Task+Manager", // Replace with your actual image
+    githubUrl: "https://github.com/yourusername/task-manager", // Replace with your actual GitHub URL
+    liveUrl: "", // Optional
+    technologies: ["React", "Firebase", "Material-UI", "Socket.io"],
+    date: "2023-10",
+    status: "In Progress"
+  },
+  {
+    id: 4,
+    title: "Weather Dashboard",
+    description: "Interactive weather dashboard with location-based forecasts, weather maps, and historical data visualization.",
+    image: "https://via.placeholder.com/400x250/f59e0b/ffffff?text=Weather+App", // Replace with your actual image
+    githubUrl: "https://github.com/yourusername/weather-dashboard", // Replace with your actual GitHub URL
+    liveUrl: "https://yourweatherapp.com", // Optional
+    technologies: ["React", "OpenWeather API", "Chart.js", "CSS3"],
+    date: "2023-09",
+    status: "Completed"
+  },
+  {
+    id: 5,
+    title: "Social Media Clone",
+    description: "Instagram-like social media platform with photo sharing, likes, comments, and user profiles.",
+    image: "https://via.placeholder.com/400x250/ef4444/ffffff?text=Social+Media", // Replace with your actual image
+    githubUrl: "https://github.com/yourusername/social-media-clone", // Replace with your actual GitHub URL
+    liveUrl: "", // Optional
+    technologies: ["React", "Node.js", "PostgreSQL", "AWS S3"],
+    date: "2023-08",
+    status: "Completed"
+  },
+  {
+    id: 6,
+    title: "Crypto Tracker",
+    description: "Real-time cryptocurrency tracking application with price alerts, portfolio management, and market analysis.",
+    image: "https://via.placeholder.com/400x250/8b5cf6/ffffff?text=Crypto+Tracker", // Replace with your actual image
+    githubUrl: "https://github.com/yourusername/crypto-tracker", // Replace with your actual GitHub URL
+    liveUrl: "https://yourcryptotracker.com", // Optional
+    technologies: ["React", "CoinGecko API", "TypeScript", "Redux"],
+    date: "2023-07",
+    status: "Completed"
+  }
+];
+
+// ✅ Project Card Component
+const ProjectCard = ({ project, index }) => {
+  const handleGithubClick = () => {
+    window.open(project.githubUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleLiveClick = () => {
+    if (project.liveUrl) {
+      window.open(project.liveUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  return (
+    <div
+      data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
+      data-aos-duration="1000"
+      data-aos-delay={index * 100}
+      className="group bg-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-500 hover:shadow-xl hover:shadow-purple-500/10 hover:-translate-y-2"
+    >
+      {/* Project Image */}
+      <div className="relative overflow-hidden">
+        <img
+          src={project.image}
+          alt={project.title}
+          className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        {/* Status Badge */}
+        <div className="absolute top-4 right-4">
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+            project.status === 'Completed' 
+              ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+              : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+          }`}>
+            {project.status}
+          </span>
+        </div>
+
+        {/* Action Buttons (appear on hover) */}
+        <div className="absolute bottom-4 left-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+          <button
+            onClick={handleGithubClick}
+            className="flex-1 bg-gray-800/80 backdrop-blur-sm text-white py-2 px-3 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-700/80 transition-colors text-sm font-medium"
+          >
+            <Github className="w-4 h-4" />
+            Code
+          </button>
+          {project.liveUrl && (
+            <button
+              onClick={handleLiveClick}
+              className="flex-1 bg-purple-600/80 backdrop-blur-sm text-white py-2 px-3 rounded-lg flex items-center justify-center gap-2 hover:bg-purple-500/80 transition-colors text-sm font-medium"
+            >
+              <ExternalLink className="w-4 h-4" />
+              Live
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Project Content */}
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors">
+            {project.title}
+          </h3>
+          <div className="flex items-center gap-1 text-xs text-gray-400">
+            <Calendar className="w-3 h-3" />
+            {project.date}
+          </div>
+        </div>
+        
+        <p className="text-gray-400 text-sm mb-4 line-clamp-3">
+          {project.description}
+        </p>
+
+        {/* Technologies */}
+        <div className="flex flex-wrap gap-2">
+          {project.technologies.slice(0, 4).map((tech, techIndex) => (
+            <span
+              key={techIndex}
+              className="px-2 py-1 bg-white/10 text-purple-300 rounded-md text-xs font-medium border border-white/20"
+            >
+              {tech}
+            </span>
+          ))}
+          {project.technologies.length > 4 && (
+            <span className="px-2 py-1 bg-white/5 text-gray-400 rounded-md text-xs">
+              +{project.technologies.length - 4} more
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Toggle Button Component
 const ToggleButton = ({ onClick, isShowingMore }) => (
   <button
     onClick={onClick}
@@ -106,8 +273,11 @@ export default function FullWidthTabs() {
   const theme = useTheme();
   const [value, setValue] = useState(0);
   const [showAllCertificates, setShowAllCertificates] = useState(false);
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  
   const isMobile = window.innerWidth < 768;
   const initialItems = isMobile ? 4 : 6;
+  const initialProjects = isMobile ? 2 : 4;
 
   useEffect(() => {
     AOS.init({ once: false });
@@ -121,9 +291,17 @@ export default function FullWidthTabs() {
     setShowAllCertificates((prev) => !prev);
   };
 
+  const toggleShowMoreProjects = () => {
+    setShowAllProjects((prev) => !prev);
+  };
+
   const displayedCertificates = showAllCertificates
     ? localCertificates
     : localCertificates.slice(0, initialItems);
+
+  const displayedProjects = showAllProjects
+    ? projects
+    : projects.slice(0, initialProjects);
 
   return (
     <div
@@ -215,13 +393,25 @@ export default function FullWidthTabs() {
           </Tabs>
         </AppBar>
 
-        {/* Tab Content Rendering (No SwipeableViews) */}
+        {/* ✅ Projects Tab */}
         {value === 0 && (
           <TabPanel value={value} index={0} dir={theme.direction}>
-            <p className="text-slate-400 text-center">Coming soon: Projects Section</p>
+            <div className="container mx-auto flex justify-center items-center overflow-hidden">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {displayedProjects.map((project, index) => (
+                  <ProjectCard key={project.id} project={project} index={index} />
+                ))}
+              </div>
+            </div>
+            {projects.length > initialProjects && (
+              <div className="mt-8 w-full flex justify-start">
+                <ToggleButton onClick={toggleShowMoreProjects} isShowingMore={showAllProjects} />
+              </div>
+            )}
           </TabPanel>
         )}
 
+        {/* Certificates Tab */}
         {value === 1 && (
           <TabPanel value={value} index={1} dir={theme.direction}>
             <div className="container mx-auto flex justify-center items-center overflow-hidden">
@@ -245,6 +435,7 @@ export default function FullWidthTabs() {
           </TabPanel>
         )}
 
+        {/* Tech Stack Tab */}
         {value === 2 && (
           <TabPanel value={value} index={2} dir={theme.direction}>
             <div className="container mx-auto flex justify-center items-center overflow-hidden pb-[5%]">

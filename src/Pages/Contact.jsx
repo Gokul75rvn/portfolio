@@ -6,6 +6,7 @@ import Komentar from "../components/Commentar";
 import Swal from "sweetalert2";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useForm, ValidationError } from '@formspree/react';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -13,13 +14,48 @@ const ContactPage = () => {
     email: "",
     message: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Replace "mwpqnovn" with your actual Formspree form ID
+  const [state, handleFormspreeSubmit] = useForm("mwpqnovn");
 
   useEffect(() => {
     AOS.init({
       once: false,
     });
   }, []);
+
+  // Handle success state
+  useEffect(() => {
+    if (state.succeeded) {
+      Swal.fire({
+        title: 'Success!',
+        text: 'Your message has been sent successfully!',
+        icon: 'success',
+        confirmButtonColor: '#6366f1',
+        timer: 2000,
+        timerProgressBar: true
+      });
+      
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+    }
+  }, [state.succeeded]);
+
+  // Handle error state
+  useEffect(() => {
+    if (state.errors && state.errors.length > 0) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Something went wrong. Please try again later.',
+        icon: 'error',
+        confirmButtonColor: '#6366f1'
+      });
+    }
+  }, [state.errors]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +67,8 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    
+    if (state.submitting) return;
 
     Swal.fire({
       title: 'Sending Message...',
@@ -42,40 +79,8 @@ const ContactPage = () => {
       }
     });
 
-    try {
-      // Get form data
-      const form = e.target;
-      const formData = new FormData(form);
-
-      // Submit form
-      await form.submit();
-
-      // Show success message
-      Swal.fire({
-        title: 'Success!',
-        text: 'Your message has been sent successfully!',
-        icon: 'success',
-        confirmButtonColor: '#6366f1',
-        timer: 2000,
-        timerProgressBar: true
-      });
-
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        message: "",
-      });
-    } catch (error) {
-      Swal.fire({
-        title: 'Error!',
-        text: 'Something went wrong. Please try again later.',
-        icon: 'error',
-        confirmButtonColor: '#6366f1'
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Submit to Formspree
+    handleFormspreeSubmit(e);
   };
 
   return (
@@ -131,15 +136,9 @@ const ContactPage = () => {
             </div>
 
             <form 
-              action="https://formsubmit.co/kabirsingh@gmail.com"
-              method="POST"
               onSubmit={handleSubmit}
               className="space-y-6"
             >
-              {/* FormSubmit Configuration */}
-              <input type="hidden" name="_template" value="table" />
-              <input type="hidden" name="_captcha" value="false" />
-
               <div
                 data-aos="fade-up"
                 data-aos-delay="100"
@@ -152,11 +151,18 @@ const ContactPage = () => {
                   placeholder="Your Name"
                   value={formData.name}
                   onChange={handleChange}
-                  disabled={isSubmitting}
+                  disabled={state.submitting}
                   className="w-full p-4 pl-12 bg-white/10 rounded-xl border border-white/20 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 transition-all duration-300 hover:border-[#6366f1]/30 disabled:opacity-50"
                   required
                 />
+                <ValidationError 
+                  prefix="Name" 
+                  field="name"
+                  errors={state.errors}
+                  className="text-red-400 text-sm mt-1"
+                />
               </div>
+              
               <div
                 data-aos="fade-up"
                 data-aos-delay="200"
@@ -169,11 +175,18 @@ const ContactPage = () => {
                   placeholder="Your Email"
                   value={formData.email}
                   onChange={handleChange}
-                  disabled={isSubmitting}
+                  disabled={state.submitting}
                   className="w-full p-4 pl-12 bg-white/10 rounded-xl border border-white/20 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 transition-all duration-300 hover:border-[#6366f1]/30 disabled:opacity-50"
                   required
                 />
+                <ValidationError 
+                  prefix="Email" 
+                  field="email"
+                  errors={state.errors}
+                  className="text-red-400 text-sm mt-1"
+                />
               </div>
+              
               <div
                 data-aos="fade-up"
                 data-aos-delay="300"
@@ -185,20 +198,27 @@ const ContactPage = () => {
                   placeholder="Your Message"
                   value={formData.message}
                   onChange={handleChange}
-                  disabled={isSubmitting}
+                  disabled={state.submitting}
                   className="w-full resize-none p-4 pl-12 bg-white/10 rounded-xl border border-white/20 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 transition-all duration-300 hover:border-[#6366f1]/30 h-[9.9rem] disabled:opacity-50"
                   required
                 />
+                <ValidationError 
+                  prefix="Message" 
+                  field="message"
+                  errors={state.errors}
+                  className="text-red-400 text-sm mt-1"
+                />
               </div>
+              
               <button
                 data-aos="fade-up"
                 data-aos-delay="400"
                 type="submit"
-                disabled={isSubmitting}
+                disabled={state.submitting}
                 className="w-full bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#6366f1]/20 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <Send className="w-5 h-5" />
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {state.submitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
 

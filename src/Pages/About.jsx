@@ -41,7 +41,7 @@ const ProfileImage = memo(() => (
       {/* Optimized gradient backgrounds with reduced complexity for mobile */}
       <div className="absolute -inset-6 opacity-[25%] z-0 hidden sm:block">
         <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-indigo-500 to-purple-600 rounded-full blur-2xl animate-spin-slower" />
-        <div className="absolute inset-0 bg-gradient-to-l from-fuchsia-500 via-rose-500 to-pink-600 rounded-full blur-2xl animate-pulse-slow opacity-50" />
+        <div className="absolute inset-0 bg-gradient-to-l from-fuchsia-500 via-rose-500 to-pink-600 rounded-full blur-2xl animate-pulse-slow" />
         <div className="absolute inset-0 bg-gradient-to-t from-blue-600 via-cyan-500 to-teal-400 rounded-full blur-2xl animate-float opacity-50" />
       </div>
       <div className="relative">
@@ -124,13 +124,12 @@ const StatCard = memo(
 );
 
 const AboutPage = () => {
+  // Manual counts - change these numbers as needed
+  const MANUAL_PROJECTS_COUNT = 15;  // Change to your desired project count
+  const MANUAL_CERTIFICATES_COUNT = 8;  // Change to your desired certificate count
+  
   // Memoized calculations
   const { totalProjects, totalCertificates, YearExperience } = useMemo(() => {
-    const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-    const storedCertificates = JSON.parse(
-      localStorage.getItem("certificates") || "[]"
-    );
-
     const startDate = new Date("2025-05-06");
     const today = new Date();
     const experience =
@@ -142,8 +141,8 @@ const AboutPage = () => {
         : 0);
 
     return {
-      totalProjects: storedProjects.length,
-      totalCertificates: storedCertificates.length,
+      totalProjects: MANUAL_PROJECTS_COUNT,
+      totalCertificates: MANUAL_CERTIFICATES_COUNT,
       YearExperience: experience,
     };
   }, []);
@@ -250,7 +249,7 @@ const AboutPage = () => {
                   <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> Download CV
                 </button>
               </a>
-              <a href="https://github.com/Gokul75rvn" className="w-full lg:w-auto">
+              <a href="#Portofolio" className="w-full lg:w-auto">
                 <button
                   data-aos="fade-up"
                   data-aos-duration="1000"

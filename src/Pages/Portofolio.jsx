@@ -34,7 +34,7 @@ const projects = [
     description: "A modern, responsive portfolio website built with React and Tailwind CSS. Features smooth animations, dark theme, and interactive components.",
     image: "pr.png", // Replace with your actual image
     githubUrl: "https://github.com/Gokul75rvn/portfolio.git", // Replace with your actual GitHub URL
-    liveUrl: "https://portfolio-1aua-7dbvg3jw3-gokul75rvns-projects.vercel.app/", // Optional: Replace with live demo URL
+    liveUrl: "https://portfolio-1aua-1hweqv96v-gokul75rvns-projects.vercel.app/", // Optional: Replace with live demo URL
     technologies: ["React", "Tailwind CSS", "Vite"],
     date: "2025-05",
     status: "Completed"

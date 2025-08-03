@@ -13,7 +13,7 @@ import "aos/dist/aos.css";
 
 const StatusBadge = memo(() => (
   <div
-    className="inline-block animate-float lg:mx-0"
+    className="inline-block animate-float lg:mx-0 "
     data-aos="zoom-in"
     data-aos-delay="400"
   >

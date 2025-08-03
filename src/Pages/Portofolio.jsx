@@ -52,14 +52,15 @@ const projects = [
   },
   {
     id: 3,
-    title: "Task Management System",
-    description: "A collaborative task management tool with real-time updates, drag-and-drop functionality, and team collaboration features.",
-    image: "https://via.placeholder.com/400x250/10b981/ffffff?text=Task+Manager", // Replace with your actual image
-    githubUrl: "https://github.com/yourusername/task-manager", // Replace with your actual GitHub URL
-    liveUrl: "", // Optional
-    technologies: ["React", "Firebase", "Material-UI", "Socket.io"],
-    date: "2023-10",
-    status: "In Progress"
+   title: "Mood Mail Generator",
+description: "A fun mini web app that generates personalized mail content based on your current mood. Simple UI with dynamic response and reset functionality.",
+image: "pr2.png", // Replace with your actual screenshot or project image if available
+githubUrl: "https://github.com/Gokul75rvn/Mood_mail.git",
+liveUrl: "https://mood-mail-omuv.vercel.app",
+technologies: ["React", "TypeScript", "Tailwind CSS"],
+date: "2025-08",
+status: "Completed"
+
   },
   {
     id: 4,
